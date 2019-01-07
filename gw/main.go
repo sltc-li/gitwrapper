@@ -46,7 +46,7 @@ func getCommands() cli.Commands {
 		},
 		{
 			Name:    "commit",
-			Aliases: []string{"cm"},
+			Aliases: []string{"ci"},
 			Usage:   "commit changes",
 			Flags: []cli.Flag{
 				cli.BoolFlag{

@@ -8,13 +8,13 @@ import (
 
 var (
 	ErrNoRemoteRepo    = errors.New("no remote repository")
-	ErrNoCurrentBranch = errors.New("no current branch")
 	ErrNoDefaultBranch = errors.New("no default branch")
 )
 
 type RepoConfig struct {
 	Organization  string
 	Repository    string
+	Branches      []string
 	CurrentBranch string
 	DefaultBranch string
 }
@@ -31,7 +31,7 @@ func NewRepoConfig(dir string) (*RepoConfig, error) {
 		return nil, err
 	}
 
-	if repoConfig.CurrentBranch, repoConfig.DefaultBranch, err = getBranchInfo(); err != nil {
+	if repoConfig.Branches, repoConfig.CurrentBranch, repoConfig.DefaultBranch, err = getBranchInfo(); err != nil {
 		return nil, err
 	}
 
@@ -51,29 +51,30 @@ func getRemoteInfo() (string, string, error) {
 	return matches[1], matches[2], nil
 }
 
-func getBranchInfo() (string, string, error) {
+func getBranchInfo() (branches []string, curBranch string, defBranch string, err error) {
 	bb, err := getAllBranches()
 	if err != nil {
-		return "", "", err
+		return
 	}
 
-	var cb, db string
 	for _, b := range bb {
+		branches = append(branches, b.Name)
 		if b.IsCurrent {
-			cb = b.Name
+			curBranch = b.Name
 		}
 
 		if b.Name == "develop" && b.IsRemote {
-			db = b.Name
+			defBranch = b.Name
 			break
 		}
 		if b.Name == "master" && b.IsRemote {
-			db = b.Name
+			defBranch = b.Name
 		}
 	}
-	if len(db) == 0 {
-		return "", "", ErrNoDefaultBranch
+	if len(defBranch) == 0 {
+		err = ErrNoDefaultBranch
+		return
 	}
 
-	return cb, db, nil
+	return
 }

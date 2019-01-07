@@ -55,7 +55,18 @@ func (rc RepoConfig) CreateBranch(branch string) error {
 	}
 
 	// step 6
-	_, err = runGitCmd(true, "checkout", "-b", branch)
+	var exists bool
+	for _, b := range rc.Branches {
+		if b == branch {
+			exists = true
+			break
+		}
+	}
+	if exists {
+		_, err = runGitCmd(true, "checkout", branch)
+	} else {
+		_, err = runGitCmd(true, "checkout", "-b", branch)
+	}
 	if err != nil {
 		return err
 	}
