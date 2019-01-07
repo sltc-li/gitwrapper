@@ -1,6 +1,6 @@
-# git-wrapper
+# gitwrapper
 
-`go get -u github.com/liyy7/git-wrapper/...`
+`go get -u github.com/liyy7/gitwrapper/gw`
 
 ```
 $ gw -h
