@@ -6,7 +6,7 @@ import (
 
 	"github.com/urfave/cli"
 
-	"github.com/liyy7/gitwrapper"
+	"github.com/li-go/gitwrapper"
 )
 
 func getRepoConfig() *gitwrapper.RepoConfig {
