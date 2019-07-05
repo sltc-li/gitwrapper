@@ -82,9 +82,18 @@ func getCommands() cli.Commands {
 					return err
 				}
 				if c.Bool("g") {
-					return rc.OpenCompareURL()
+					return rc.OpenCompare()
 				}
 				return nil
+			},
+		},
+		{
+			Name:    "github",
+			Aliases: []string{"g"},
+			Usage:   "open github",
+			Action: func(c *cli.Context) error {
+				rc := getRepoConfig()
+				return rc.OpenRepo()
 			},
 		},
 	}
