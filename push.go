@@ -1,8 +1,12 @@
 package gitwrapper
 
-func (rc RepoConfig) Push() error {
+func (rc RepoConfig) Push(force bool) error {
 	// step 1
-	_, err := runGitCmd(true, "push", "-u", "origin", rc.CurrentBranch)
+	branch := rc.CurrentBranch
+	if force {
+		branch = "+" + rc.CurrentBranch
+	}
+	_, err := runGitCmd(true, "git push -u origin "+branch)
 	if err != nil {
 		return err
 	}

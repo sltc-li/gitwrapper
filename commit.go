@@ -9,7 +9,7 @@ import (
 
 func (rc RepoConfig) Commit(add bool, msg string) error {
 	// step 1
-	_, err := runGitCmd(true, "status")
+	_, err := runGitCmd(true, "git status")
 	if err != nil {
 		return err
 	}
@@ -23,7 +23,7 @@ func (rc RepoConfig) Commit(add bool, msg string) error {
 			return err
 		}
 
-		_, err = runGitCmd(true, "add", "-A")
+		_, err = runGitCmd(true, "git add -A")
 		if err != nil {
 			return err
 		}
@@ -33,7 +33,7 @@ func (rc RepoConfig) Commit(add bool, msg string) error {
 	if len(msg) == 0 {
 		msg = rc.getDefaultCommitMessage()
 	}
-	_, err = runGitCmd(true, "commit", "-m", msg)
+	_, err = runGitCmd(true, "git commit -m '"+msg+"'")
 	if err != nil {
 		return err
 	}

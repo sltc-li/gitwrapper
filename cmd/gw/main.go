@@ -75,10 +75,14 @@ func getCommands() cli.Commands {
 					Name:  "g",
 					Usage: "open compare page on github",
 				},
+				cli.BoolFlag{
+					Name:  "f",
+					Usage: "force push",
+				},
 			},
 			Action: func(c *cli.Context) error {
 				rc := getRepoConfig()
-				if err := rc.Push(); err != nil {
+				if err := rc.Push(c.Bool("f")); err != nil {
 					return err
 				}
 				if c.Bool("g") {

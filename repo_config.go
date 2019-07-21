@@ -39,7 +39,7 @@ func NewRepoConfig(dir string) (*RepoConfig, error) {
 }
 
 func getRemoteInfo() (string, string, error) {
-	o, err := runGitCmd(false, "remote", "-v")
+	o, err := runGitCmd(false, "git remote -v")
 	if err != nil {
 		return "", "", err
 	}

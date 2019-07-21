@@ -3,7 +3,7 @@ package gitwrapper
 import "strings"
 
 func (rc RepoConfig) CreateBranch(branch string) error {
-	o, err := runGitCmd(true, "status")
+	o, err := runGitCmd(true, "git status")
 	if branch == rc.CurrentBranch {
 		return err
 	}
@@ -15,26 +15,26 @@ func (rc RepoConfig) CreateBranch(branch string) error {
 
 	// step 1
 	if !clean {
-		_, err = runGitCmd(true, "stash")
+		_, err = runGitCmd(true, "git stash")
 		if err != nil {
 			return err
 		}
 	}
 
 	// step 2
-	_, err = runGitCmd(true, "checkout", rc.DefaultBranch)
+	_, err = runGitCmd(true, "git checkout "+rc.DefaultBranch)
 	if err != nil {
 		return err
 	}
 
 	// step 3
-	_, err = runGitCmd(true, "fetch", "-p")
+	_, err = runGitCmd(true, "git fetch -p")
 	if err != nil {
 		return err
 	}
 
 	// step 4
-	_, err = runGitCmd(true, "rebase", "origin/"+rc.DefaultBranch)
+	_, err = runGitCmd(true, "git rebase origin/"+rc.DefaultBranch)
 	if err != nil {
 		return err
 	}
@@ -48,7 +48,7 @@ func (rc RepoConfig) CreateBranch(branch string) error {
 		if b.IsCurrent || b.IsRemote {
 			continue
 		}
-		_, err = runGitCmd(true, "branch", "-D", b.Name)
+		_, err = runGitCmd(true, "git branch -D "+b.Name)
 		if err != nil {
 			return err
 		}
@@ -63,9 +63,9 @@ func (rc RepoConfig) CreateBranch(branch string) error {
 		}
 	}
 	if exists {
-		_, err = runGitCmd(true, "checkout", branch)
+		_, err = runGitCmd(true, "git checkout "+branch)
 	} else {
-		_, err = runGitCmd(true, "checkout", "-b", branch)
+		_, err = runGitCmd(true, "git checkout -b "+branch)
 	}
 	if err != nil {
 		return err
@@ -73,12 +73,12 @@ func (rc RepoConfig) CreateBranch(branch string) error {
 
 	// step 7
 	if clean {
-		_, err = runGitCmd(true, "status")
+		_, err = runGitCmd(true, "git status")
 		if err != nil {
 			return err
 		}
 	} else {
-		_, err = runGitCmd(true, "stash", "pop")
+		_, err = runGitCmd(true, "git stash pop")
 		if err != nil {
 			return err
 		}

@@ -17,23 +17,12 @@ func green(s string) string {
 	return "\033[0;32m" + s + "\033[0m"
 }
 
-func joinArgs(args []string) string {
-	var cc []string
-	for _, a := range args {
-		if strings.Contains(a, " ") {
-			a = `"` + strings.Replace(a, `"`, `\"`, -1) + `"`
-		}
-		cc = append(cc, a)
-	}
-	return strings.Join(cc, " ")
-}
-
-func runGitCmd(trace bool, args ...string) (string, error) {
+func runGitCmd(trace bool, gitCmd string) (string, error) {
 	if trace {
-		logger.Println(green("git " + joinArgs(args)))
+		logger.Println(green(gitCmd))
 	}
 
-	cmd := exec.Command("git", args...)
+	cmd := exec.Command("bash", "-c", gitCmd)
 
 	var stdout bytes.Buffer
 	cmd.Stdout = &stdout
@@ -59,7 +48,7 @@ type Branch struct {
 }
 
 func getAllBranches() ([]Branch, error) {
-	o, err := runGitCmd(false, "branch", "-a")
+	o, err := runGitCmd(false, "git branch -a")
 	if err != nil {
 		return nil, err
 	}
