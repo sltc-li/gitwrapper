@@ -82,17 +82,17 @@ func getCommands() cli.Commands {
 			Usage:   "commit changes",
 			Flags: []cli.Flag{
 				cli.BoolFlag{
-					Name:  "a",
-					Usage: "add changes",
+					Name:  "A",
+					Usage: "add changes (include un-tracked files)",
 				},
 				cli.StringFlag{
-					Name:  "m",
-					Usage: "give a commit message",
+					Name:  "am",
+					Usage: "add changes and give a commit message",
 				},
 			},
 			Action: func(c *cli.Context) error {
 				rc := getRepoConfig()
-				if err := rc.Commit(c.Bool("a"), c.String("m")); err != nil {
+				if err := rc.Commit(c.Bool("A"), c.String("am")); err != nil {
 					return err
 				}
 				return nil

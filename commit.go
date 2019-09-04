@@ -1,9 +1,6 @@
 package gitwrapper
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"strings"
 )
 
@@ -16,13 +13,6 @@ func (rc RepoConfig) Commit(add bool, msg string) error {
 
 	// step 2
 	if add {
-		fmt.Print("press enter to continue...")
-		reader := bufio.NewReader(os.Stdin)
-		_, err = reader.ReadString('\n')
-		if err != nil {
-			return err
-		}
-
 		_, err = runGitCmd(true, "git add -A")
 		if err != nil {
 			return err
@@ -33,7 +23,7 @@ func (rc RepoConfig) Commit(add bool, msg string) error {
 	if len(msg) == 0 {
 		msg = rc.getDefaultCommitMessage()
 	}
-	_, err = runGitCmd(true, "git commit -m '"+msg+"'")
+	_, err = runGitCmd(true, "git commit -am '"+msg+"'")
 	if err != nil {
 		return err
 	}
