@@ -14,10 +14,13 @@ VERSION:
    0.0.1
 
 COMMANDS:
-     create, c   create a new refresh branch
-     commit, ci  commit changes
-     push, p     push to remote
-     help, h     Shows a list of commands or help for one command
+   fish        generate fish completion
+   update, u   update current branch
+   create, c   create a new refresh branch
+   commit, ci  commit changes
+   push, p     push to remote
+   github, g   open github
+   help, h     Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --help, -h     show help
