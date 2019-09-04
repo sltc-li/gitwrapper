@@ -64,9 +64,15 @@ func getAllBranches() ([]Branch, error) {
 			b.IsCurrent = true
 		}
 
-		if strings.HasPrefix(b.Name, "remotes/origin/") {
-			b.Name = b.Name[15:]
+		if strings.HasPrefix(b.Name, "remotes/") {
+			b.Name = b.Name[8:]
 			b.IsRemote = true
+
+			// ignore remote branches not from origin
+			if !strings.HasPrefix(b.Name, "origin/") {
+				continue
+			}
+			b.Name = b.Name[7:]
 		}
 
 		bb = append(bb, b)

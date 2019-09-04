@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
+	"path"
 
 	"github.com/urfave/cli"
 
@@ -36,6 +39,35 @@ func main() {
 
 func getCommands() cli.Commands {
 	return cli.Commands{
+		{
+			Name:  "fish",
+			Usage: "generate fish completion",
+			Action: func(c *cli.Context) error {
+				completion, err := c.App.ToFishCompletion()
+				if err != nil {
+					return err
+				}
+				home, err := os.UserHomeDir()
+				if err != nil {
+					return err
+				}
+				completionFile := path.Join(home, ".config", "fish", "completions", "gw.fish")
+				fmt.Printf("Installing to %s\n", completionFile)
+				if err := ioutil.WriteFile(completionFile, []byte(completion), 0644); err != nil {
+					return err
+				}
+				fmt.Println("Done!")
+				return nil
+			},
+		},
+		{
+			Name:    "update",
+			Aliases: []string{"u"},
+			Usage:   "update current branch",
+			Action: func(c *cli.Context) error {
+				return getRepoConfig().Update()
+			},
+		},
 		{
 			Name:    "create",
 			Aliases: []string{"c"},
