@@ -29,8 +29,34 @@ func main() {
 	app.Name = "gw"
 	app.Usage = "a simple wrapper command for git"
 	app.Version = "0.0.1"
+	app.Flags = []cli.Flag{
+		cli.BoolFlag{
+			Name:  "fish",
+			Usage: "generate fish completion",
+		},
+	}
 	app.Commands = getCommands()
 	app.EnableBashCompletion = true
+	app.Action = func(c *cli.Context) error {
+		if c.Bool("fish") {
+			completion, err := c.App.ToFishCompletion()
+			if err != nil {
+				return err
+			}
+			home, err := os.UserHomeDir()
+			if err != nil {
+				return err
+			}
+			completionFile := path.Join(home, ".config", "fish", "completions", "gw.fish")
+			fmt.Printf("Installing to %s\n", completionFile)
+			if err := ioutil.WriteFile(completionFile, []byte(completion), 0644); err != nil {
+				return err
+			}
+			fmt.Println("Done!")
+			return nil
+		}
+		return cli.ShowAppHelp(c)
+	}
 
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
@@ -39,27 +65,6 @@ func main() {
 
 func getCommands() cli.Commands {
 	return cli.Commands{
-		{
-			Name:  "fish",
-			Usage: "generate fish completion",
-			Action: func(c *cli.Context) error {
-				completion, err := c.App.ToFishCompletion()
-				if err != nil {
-					return err
-				}
-				home, err := os.UserHomeDir()
-				if err != nil {
-					return err
-				}
-				completionFile := path.Join(home, ".config", "fish", "completions", "gw.fish")
-				fmt.Printf("Installing to %s\n", completionFile)
-				if err := ioutil.WriteFile(completionFile, []byte(completion), 0644); err != nil {
-					return err
-				}
-				fmt.Println("Done!")
-				return nil
-			},
-		},
 		{
 			Name:    "update",
 			Aliases: []string{"u"},

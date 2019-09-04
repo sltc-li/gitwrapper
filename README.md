@@ -14,7 +14,6 @@ VERSION:
    0.0.1
 
 COMMANDS:
-   fish        generate fish completion
    update, u   update current branch
    create, c   create a new refresh branch
    commit, ci  commit changes
@@ -23,6 +22,7 @@ COMMANDS:
    help, h     Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
+   --fish         generate fish completion
    --help, -h     show help
    --version, -v  print the version
 ```
