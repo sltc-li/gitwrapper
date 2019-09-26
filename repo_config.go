@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"regexp"
+	"strings"
 )
 
 var (
@@ -43,12 +44,12 @@ func getRemoteInfo() (string, string, error) {
 	if err != nil {
 		return "", "", err
 	}
-	r, _ := regexp.Compile(`github\.com:(.*)\/(.*)\.git`)
+	r, _ := regexp.Compile(`(?m)^origin\s+git@github\.com:(.*)\/(.*|.*\.git)\s+\(fetch\)$`)
 	matches := r.FindStringSubmatch(o)
 	if len(matches) == 0 {
 		return "", "", ErrNoRemoteRepo
 	}
-	return matches[1], matches[2], nil
+	return matches[1], strings.Split(matches[2], ".git")[0], nil
 }
 
 func getBranchInfo() (branches []string, curBranch string, defBranch string, err error) {
