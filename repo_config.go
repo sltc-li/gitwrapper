@@ -44,7 +44,7 @@ func getRemoteInfo() (string, string, error) {
 	if err != nil {
 		return "", "", err
 	}
-	r, _ := regexp.Compile(`(?m)^origin\s+git@github\.com:(.*)\/(.*|.*\.git)\s+\(fetch\)$`)
+	r, _ := regexp.Compile(`(?m)^origin\s+(?:ssh://)?git@github\.com(:|/)(.*)/(.*|.*\.git)\s+\(fetch\)$`)
 	matches := r.FindStringSubmatch(o)
 	if len(matches) == 0 {
 		return "", "", ErrNoRemoteRepo
