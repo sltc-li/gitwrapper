@@ -12,8 +12,7 @@ func (rc RepoConfig) OpenCompare() error {
 }
 
 func (rc RepoConfig) OpenRepo() error {
-	url := fmt.Sprintf("https://github.com/%s/%s/tree/%s",
-		rc.Organization, rc.Repository, rc.CurrentBranch)
+	url := fmt.Sprintf("https://github.com/%s/%s/tree/%s", rc.Organization, rc.Repository, rc.CurrentBranch)
 	return open(url)
 }
 
