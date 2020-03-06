@@ -1,6 +1,6 @@
 # gitwrapper
 
-`go get -u github.com/li-go/gitwrapper/cmd/gw`
+`GO111MODULE=on go get -u github.com/li-go/gitwrapper/cmd/gw`
 
 ```
 $ gw -h
