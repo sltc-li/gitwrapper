@@ -10,6 +10,12 @@ import (
 var (
 	ErrNoRemoteRepo    = errors.New("no remote repository")
 	ErrNoDefaultBranch = errors.New("no default branch")
+
+	defaultBranches = []string{
+		"develop",
+		"master",
+		"main",
+	}
 )
 
 type RepoConfig struct {
@@ -64,18 +70,24 @@ func getBranchInfo() (branches []string, curBranch string, defBranch string, err
 			curBranch = b.Name
 		}
 
-		if b.Name == "develop" && b.IsRemote {
+		if b.IsRemote && isDefaultBranch(b.Name) {
 			defBranch = b.Name
 			break
 		}
-		if b.Name == "master" && b.IsRemote {
-			defBranch = b.Name
-		}
 	}
-	if len(defBranch) == 0 {
+	if defBranch == "" {
 		err = ErrNoDefaultBranch
 		return
 	}
 
 	return
+}
+
+func isDefaultBranch(name string) bool {
+	for _, branch := range defaultBranches {
+		if name == branch {
+			return true
+		}
+	}
+	return false
 }

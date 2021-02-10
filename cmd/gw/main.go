@@ -137,5 +137,17 @@ func getCommands() cli.Commands {
 				return rc.OpenRepo()
 			},
 		},
+		{
+			Name:    "release",
+			Aliases: []string{"r"},
+			Usage:   "add release tag and push tags",
+			Action: func(c *cli.Context) error {
+				rc := getRepoConfig()
+				if err := rc.AddReleaseTag(); err != nil {
+					return err
+				}
+				return rc.PushTags()
+			},
+		},
 	}
 }

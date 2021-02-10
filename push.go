@@ -13,3 +13,13 @@ func (rc RepoConfig) Push(force bool) error {
 
 	return nil
 }
+
+func (rc RepoConfig) PushTags() error {
+	// step 1
+	_, err := runGitCmd(true, "git push origin --tags")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
