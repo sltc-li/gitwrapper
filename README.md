@@ -1,7 +1,9 @@
 # gitwrapper
 
-Go1.16
+### Prerequisite
+* Go 1.16
 
+### Usage
 `go install github.com/li-go/gitwrapper/cmd/gw@latest`
 
 ```
