@@ -1,6 +1,8 @@
 # gitwrapper
 
-`GO111MODULE=on go get -u github.com/li-go/gitwrapper/cmd/gw`
+Go1.16
+
+`go install github.com/li-go/gitwrapper/cmd/gw@latest`
 
 ```
 $ gw -h
@@ -19,6 +21,7 @@ COMMANDS:
    commit, ci  commit changes
    push, p     push to remote
    github, g   open github
+   release, r  add release tag and push tags
    help, h     Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
