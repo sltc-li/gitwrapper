@@ -1,6 +1,8 @@
 package gitwrapper
 
-import "strings"
+import (
+	"strings"
+)
 
 func (rc RepoConfig) CreateBranch(branch string) error {
 	o, err := runGitCmd(true, "git status")
@@ -56,8 +58,8 @@ func (rc RepoConfig) CreateBranch(branch string) error {
 
 	// step 6
 	var exists bool
-	for _, b := range rc.Branches {
-		if b == branch {
+	for _, b := range bb {
+		if b.Name == branch {
 			exists = true
 			break
 		}
