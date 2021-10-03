@@ -11,6 +11,12 @@ func (rc RepoConfig) Push(force bool) error {
 		return err
 	}
 
+	commitHash, err := rc.GetShortHash()
+	if err != nil {
+		return err
+	}
+	logger.Println(commitHash)
+
 	commitURL, err := rc.GetLatestCommitURL()
 	if err != nil {
 		return err

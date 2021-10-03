@@ -5,6 +5,14 @@ import (
 	"os/exec"
 )
 
+func (rc RepoConfig) GetShortHash() (string, error) {
+	commitID, err := runGitCmd(false, "git rev-parse --short HEAD")
+	if err != nil {
+		return "", err
+	}
+	return commitID, nil
+}
+
 func (rc RepoConfig) GetLatestCommitURL() (string, error) {
 	commitID, err := runGitCmd(false, "git rev-parse HEAD")
 	if err != nil {
