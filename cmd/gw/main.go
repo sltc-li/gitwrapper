@@ -149,5 +149,23 @@ func getCommands() cli.Commands {
 				return rc.PushTags()
 			},
 		},
+		{
+			Name:    "pull-request",
+			Aliases: []string{"pr"},
+			Subcommands: cli.Commands{
+				{
+					Name:    "list",
+					Aliases: []string{"ls"},
+					Usage:   "alias for gh pr list",
+					Action: func(c *cli.Context) error {
+						return gitwrapper.GHPRAlias{}.List()
+					},
+				},
+			},
+			Usage: "alias for gh pr (default: gh pr view)",
+			Action: func(c *cli.Context) error {
+				return gitwrapper.GHPRAlias{}.View(c.Args().First())
+			},
+		},
 	}
 }
