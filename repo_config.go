@@ -19,6 +19,7 @@ var (
 )
 
 type RepoConfig struct {
+	RemoteHost    string
 	Organization  string
 	Repository    string
 	Branches      []string
@@ -34,7 +35,7 @@ func NewRepoConfig(dir string) (*RepoConfig, error) {
 	var repoConfig = new(RepoConfig)
 	var err error
 
-	if repoConfig.Organization, repoConfig.Repository, err = getRemoteInfo(); err != nil {
+	if repoConfig.RemoteHost, repoConfig.Organization, repoConfig.Repository, err = getRemoteInfo(); err != nil {
 		return nil, err
 	}
 
@@ -45,17 +46,17 @@ func NewRepoConfig(dir string) (*RepoConfig, error) {
 	return repoConfig, nil
 }
 
-func getRemoteInfo() (string, string, error) {
+func getRemoteInfo() (string, string, string, error) {
 	o, err := runGitCmd(false, "git remote -v")
 	if err != nil {
-		return "", "", err
+		return "", "", "", err
 	}
-	r, _ := regexp.Compile(`(?m)^origin\s+(?:ssh://)?(?:git@)?github\.com(?::|/)(.*)/(.*|.*\.git)\s+\(fetch\)$`)
+	r, _ := regexp.Compile(`(?m)^origin\s+(?:ssh://)?(?:git@)?(github\.com|gitee\.com)(?::|/)(.*)/(.*|.*\.git)\s+\(fetch\)$`)
 	matches := r.FindStringSubmatch(o)
 	if len(matches) == 0 {
-		return "", "", ErrNoRemoteRepo
+		return "", "", "", ErrNoRemoteRepo
 	}
-	return matches[1], strings.Split(matches[2], ".git")[0], nil
+	return matches[1], matches[2], strings.Split(matches[3], ".git")[0], nil
 }
 
 func getBranchInfo() (branches []string, curBranch string, defBranch string, err error) {

@@ -11,15 +11,15 @@ func (rc RepoConfig) GetLatestCommitURL() (string, error) {
 		return "", err
 	}
 
-	return fmt.Sprintf("https://github.com/%s/%s/commit/%s", rc.Organization, rc.Repository, commitID), nil
+	return fmt.Sprintf("https://%s/%s/%s/commit/%s", rc.RemoteHost, rc.Organization, rc.Repository, commitID), nil
 }
 
 func (rc RepoConfig) GetCompareURL() string {
-	return fmt.Sprintf("https://github.com/%s/%s/compare/%s?expand=1", rc.Organization, rc.Repository, rc.CurrentBranch)
+	return fmt.Sprintf("https://%s/%s/%s/compare/%s?expand=1", rc.RemoteHost, rc.Organization, rc.Repository, rc.CurrentBranch)
 }
 
 func (rc RepoConfig) GetRepositoryURL() string {
-	return fmt.Sprintf("https://github.com/%s/%s/tree/%s", rc.Organization, rc.Repository, rc.CurrentBranch)
+	return fmt.Sprintf("https://%s/%s/%s/tree/%s", rc.RemoteHost, rc.Organization, rc.Repository, rc.CurrentBranch)
 }
 
 func (rc RepoConfig) OpenCompare() error {
