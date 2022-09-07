@@ -70,7 +70,7 @@ func getCommands() cli.Commands {
 			Aliases: []string{"u"},
 			Usage:   "update current branch",
 			Action: func(c *cli.Context) error {
-				return getRepoConfig().Update()
+				return getRepoConfig().Update(false)
 			},
 		},
 		{
@@ -150,6 +150,14 @@ func getCommands() cli.Commands {
 			},
 		},
 		{
+			Name:    "merge",
+			Aliases: []string{"m"},
+			Usage:   "merge default branch",
+			Action: func(c *cli.Context) error {
+				return getRepoConfig().Update(true)
+			},
+		},
+		{
 			Name:    "pull-request",
 			Aliases: []string{"pr"},
 			Subcommands: cli.Commands{
@@ -159,6 +167,14 @@ func getCommands() cli.Commands {
 					Usage:   "alias for gh pr list",
 					Action: func(c *cli.Context) error {
 						return gitwrapper.GHPRAlias{}.List()
+					},
+				},
+				{
+					Name:    "checkout",
+					Aliases: []string{"c"},
+					Usage:   "alias for gh pr checkout",
+					Action: func(c *cli.Context) error {
+						return gitwrapper.GHPRAlias{}.Checkout(c.Args().First())
 					},
 				},
 			},

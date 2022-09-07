@@ -2,7 +2,7 @@ package gitwrapper
 
 import "strings"
 
-func (rc RepoConfig) Update() error {
+func (rc RepoConfig) Update(merge bool) error {
 	o, err := runGitCmd(true, "git status")
 	if err != nil {
 		return err
@@ -28,9 +28,16 @@ func (rc RepoConfig) Update() error {
 	}
 
 	// step 3
-	_, err = runGitCmd(true, "git rebase origin/"+rc.CurrentBranch)
-	if err != nil {
-		return err
+	if merge {
+		_, err = runGitCmd(true, "git merge origin/"+rc.DefaultBranch)
+		if err != nil {
+			return err
+		}
+	} else {
+		_, err = runGitCmd(true, "git rebase origin/"+rc.CurrentBranch)
+		if err != nil {
+			return err
+		}
 	}
 
 	// step 4

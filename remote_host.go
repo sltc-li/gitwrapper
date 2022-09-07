@@ -27,7 +27,7 @@ func (rc RepoConfig) GetCompareURL() string {
 }
 
 func (rc RepoConfig) GetRepositoryURL() string {
-	return fmt.Sprintf("https://%s/%s/%s/tree/%s", rc.RemoteHost, rc.Organization, rc.Repository, rc.CurrentBranch)
+	return fmt.Sprintf("https://%s/%s/%s/tree/%s", rc.RemoteHost, rc.Organization, rc.Repository, rc.CommitHash)
 }
 
 func (rc RepoConfig) OpenCompare() error {

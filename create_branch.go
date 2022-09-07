@@ -1,6 +1,7 @@
 package gitwrapper
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -50,7 +51,7 @@ func (rc RepoConfig) CreateBranch(branch string) error {
 		if b.IsCurrent || b.IsRemote {
 			continue
 		}
-		_, err = runGitCmd(true, "git branch -D "+b.Name)
+		_, err = runGitCmd(true, fmt.Sprintf(`git branch -D "%s"`, b.Name))
 		if err != nil {
 			return err
 		}
@@ -65,9 +66,9 @@ func (rc RepoConfig) CreateBranch(branch string) error {
 		}
 	}
 	if exists {
-		_, err = runGitCmd(true, "git checkout "+branch)
+		_, err = runGitCmd(true, fmt.Sprintf(`git checkout "%s"`, branch))
 	} else {
-		_, err = runGitCmd(true, "git checkout -b "+branch)
+		_, err = runGitCmd(true, fmt.Sprintf(`git checkout -b "%s"`, branch))
 	}
 	if err != nil {
 		return err

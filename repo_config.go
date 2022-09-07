@@ -25,6 +25,7 @@ type RepoConfig struct {
 	Branches      []string
 	CurrentBranch string
 	DefaultBranch string
+	CommitHash    string
 }
 
 func NewRepoConfig(dir string) (*RepoConfig, error) {
@@ -40,6 +41,10 @@ func NewRepoConfig(dir string) (*RepoConfig, error) {
 	}
 
 	if repoConfig.Branches, repoConfig.CurrentBranch, repoConfig.DefaultBranch, err = getBranchInfo(); err != nil {
+		return nil, err
+	}
+
+	if repoConfig.CommitHash, err = runGitCmd(false, "git rev-parse --short HEAD"); err != nil {
 		return nil, err
 	}
 

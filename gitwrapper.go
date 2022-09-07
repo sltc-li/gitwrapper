@@ -39,7 +39,7 @@ func runGitCmd(trace bool, gitCmd string) (string, error) {
 		_, _ = io.Copy(os.Stdout, &buffCopy)
 	}
 
-	return stdout.String(), nil
+	return strings.TrimSpace(stdout.String()), nil
 }
 
 type Branch struct {
