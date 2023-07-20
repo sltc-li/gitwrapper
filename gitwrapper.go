@@ -54,14 +54,16 @@ func getAllBranches() ([]Branch, error) {
 	}
 	var bb []Branch
 	for _, row := range strings.Split(o, "\n") {
+		row = strings.TrimSpace(row)
 		if len(row) == 0 {
 			continue
 		}
 
-		b := Branch{Name: row[2:]}
+		b := Branch{Name: row}
 
-		if strings.HasPrefix(row, "* ") {
+		if strings.HasPrefix(b.Name, "* ") {
 			b.IsCurrent = true
+			b.Name = b.Name[2:]
 		}
 
 		if strings.HasPrefix(b.Name, "remotes/") {
